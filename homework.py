@@ -3,26 +3,26 @@ import os
 import sys
 import time
 import requests
+import telegram.error
 from dotenv import load_dotenv
 from telegram import Bot
 
 load_dotenv()
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter(
-    '%(asctime)s, %(levelname)s, %(message)s, %(funcName)s'
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s, %(levelname)s, %(message)s, %(funcName)s',
+    handlers=[
+        logging.FileHandler('log.txt'),
+        logging.StreamHandler(stream=sys.stdout)
+    ]
 )
-handler = logging.StreamHandler(stream=sys.stdout)
-handler.setLevel(logging.DEBUG)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
 
 PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-RETRY_TIME = 600
+RETRY_TIME = 60
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
@@ -36,32 +36,53 @@ HOMEWORK_STATUSES = {
 
 def send_message(bot, message):
     """Бот отправляет сообщение."""
-    bot.send_message(TELEGRAM_CHAT_ID, message)
+    try:
+        bot.send_message(TELEGRAM_CHAT_ID, message)
+    except telegram.error.TelegramError(f'Сообщение НЕ отправлено: {message}'):
+        raise
+    else:
+        logger.info('Сообщение отправлено')
 
 
 def get_api_answer(current_timestamp):
     """Запрос к эндпоинту API-сервиса."""
     timestamp = current_timestamp
     params = {'from_date': timestamp}
-    homework_statuses = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    logger.info(f'Отправляем запрос к API: {ENDPOINT}')
+    try:
+        homework_statuses = requests.get(
+            ENDPOINT, headers=HEADERS, params=params
+        )
+    except requests.exceptions('Ошибка запроса'):
+        raise
     if homework_statuses.status_code != 200:
-        raise ConnectionError('Ошибка подключения!')
+        raise ConnectionError(
+            f'Ошибка подключения: {homework_statuses.status_code}'
+        )
     response = homework_statuses.json()
     return response
 
 
 def check_response(response):
     """Проверяет ответ API на корректность."""
-    if not isinstance(response['homeworks'], list):
-        raise TypeError('Получен НЕ верный тип данных')
+    logger.info('Проверяем ответ API на корректность')
+    if not isinstance(response, dict):
+        raise TypeError(
+            f'Получен НЕ верный тип данных: {type(response)}, ожидался словарь'
+        )
     if not response.get('homeworks'):
         raise IndexError('Список домашних работ пуст или нет изменений')
+    if not isinstance(response['homeworks'], list):
+        raise TypeError(
+            f'Получен НЕ верный тип данных: {type(response)}, ожидался список'
+        )
     homework = response.get('homeworks')[0]
     return homework
 
 
 def parse_status(homework):
     """Извлекает из информации статус работы."""
+    logger.info('Определяем статус домашней работы')
     keys = ['status', 'homework_name']
     for key in keys:
         if key not in homework:
@@ -76,10 +97,8 @@ def parse_status(homework):
 
 def check_tokens():
     """Проверяет доступность переменных окружения."""
-    if PRACTICUM_TOKEN and TELEGRAM_TOKEN and TELEGRAM_CHAT_ID is not None:
-        return True
-    else:
-        return False
+    if all(PRACTICUM_TOKEN and TELEGRAM_TOKEN and TELEGRAM_CHAT_ID):
+        return
 
 
 def main():
@@ -88,9 +107,7 @@ def main():
     current_timestamp = 0
     old_message = ''
     if check_tokens() is False:
-        logger.critical(
-            'Отсутствие обязательных переменных окружения'
-        )
+        logger.critical('Отсутствие обязательных переменных окружения')
         sys.exit()
     send_message(bot, 'Старт')
     while True:
@@ -106,18 +123,16 @@ def main():
                 logger.debug('Ответ не изменился')
                 send_message(bot, 'Ответ не изменился')
 
-            send_message(bot, 'Пауза')
-            time.sleep(RETRY_TIME)
-            send_message(bot, 'Новый запрос')
-
         except Exception as error:
             send_message(bot, f'{error}')
             logger.error(error, exc_info=True)
 
+        finally:
             send_message(bot, 'Пауза')
             time.sleep(RETRY_TIME)
             send_message(bot, 'Новый запрос')
 
 
 if __name__ == '__main__':
+    logger = logging.getLogger(__name__)
     main()
