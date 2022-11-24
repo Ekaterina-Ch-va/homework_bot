@@ -104,7 +104,7 @@ def main():
     timestamp = 0
     old_message = ''
     if not check_tokens():
-        logger.critical('Отсутствие обязательных переменных окружения')
+        logging.critical('Отсутствие обязательных переменных окружения')
         sys.exit('Бот остановлен')
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     send_message(bot, 'Старт')
