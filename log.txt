@@ -16,3 +16,26 @@
 2022-11-24 19:38:08,431, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 214, 'photo': [], 'entities': [], 'text': 'Пауза', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669307887, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
 2022-11-24 19:38:08,435, DEBUG, Exiting: send_message, decorator
 2022-11-24 19:38:08,436, DEBUG, Сообщение отправлено, send_message
+2022-11-24 19:48:08,438, DEBUG, Entering: send_message, decorator
+2022-11-24 19:48:09,501, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 215, 'photo': [], 'entities': [], 'text': 'Новый запрос', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669308487, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:48:11,572, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:48:11,598, DEBUG, Сообщение отправлено, send_message
+2022-11-24 19:48:11,601, INFO, Отправляем запрос к API: https://practicum.yandex.ru/api/user_api/homework_statuses/, get_api_answer
+2022-11-24 19:48:11,610, DEBUG, Starting new HTTPS connection (1): practicum.yandex.ru:443, _new_conn
+2022-11-24 19:48:12,361, DEBUG, https://practicum.yandex.ru:443 "GET /api/user_api/homework_statuses/?from_date=1669307886 HTTP/1.1" 200 42, _make_request
+2022-11-24 19:48:12,368, INFO, Проверяем ответ API на корректность, check_response
+2022-11-24 19:48:12,370, DEBUG, Entering: send_message, decorator
+2022-11-24 19:48:12,497, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 216, 'photo': [], 'entities': [], 'text': 'Список домашних работ пуст или нет изменений', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669308491, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:48:12,500, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:48:12,501, DEBUG, Сообщение отправлено, send_message
+2022-11-24 19:48:12,502, ERROR, Список домашних работ пуст или нет изменений, main
+Traceback (most recent call last):
+  File "f:/Dev/homework_bot/homework.py", line 126, in main
+    logging.error(error, exc_info=True)
+  File "f:/Dev/homework_bot/homework.py", line 73, in check_response
+    raise IndexError('Список домашних работ пуст или нет изменений')
+IndexError: Список домашних работ пуст или нет изменений
+2022-11-24 19:48:12,506, DEBUG, Entering: send_message, decorator
+2022-11-24 19:48:12,615, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 217, 'photo': [], 'entities': [], 'text': 'Пауза', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669308491, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:48:12,618, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:48:12,619, DEBUG, Сообщение отправлено, send_message
