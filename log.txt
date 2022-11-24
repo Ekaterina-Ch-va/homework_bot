@@ -1,0 +1,18 @@
+2022-11-24 19:36:02,091, CRITICAL, Отсутствие обязательных переменных окружения, main
+2022-11-24 19:38:06,925, DEBUG, Entering: send_message, decorator
+2022-11-24 19:38:07,379, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 212, 'photo': [], 'entities': [], 'text': 'Старт', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669307886, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:38:07,381, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:38:07,383, DEBUG, Сообщение отправлено, send_message
+2022-11-24 19:38:07,384, INFO, Отправляем запрос к API: https://practicum.yandex.ru/api/user_api/homework_statuses/, get_api_answer
+2022-11-24 19:38:07,393, DEBUG, Starting new HTTPS connection (1): practicum.yandex.ru:443, _new_conn
+2022-11-24 19:38:08,210, DEBUG, https://practicum.yandex.ru:443 "GET /api/user_api/homework_statuses/?from_date=0 HTTP/1.1" 200 None, _make_request
+2022-11-24 19:38:08,215, INFO, Проверяем ответ API на корректность, check_response
+2022-11-24 19:38:08,216, INFO, Определяем статус домашней работы, parse_status
+2022-11-24 19:38:08,218, DEBUG, Entering: send_message, decorator
+2022-11-24 19:38:08,334, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 213, 'photo': [], 'entities': [], 'text': 'Изменился статус проверки работы "Ekaterina-Ch-va__hw05_final.zip". Работа проверена: ревьюеру всё понравилось. Ура!', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669307887, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:38:08,341, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:38:08,343, DEBUG, Сообщение отправлено, send_message
+2022-11-24 19:38:08,344, DEBUG, Entering: send_message, decorator
+2022-11-24 19:38:08,431, DEBUG, {'chat': {'first_name': 'Екатерина', 'type': 'private', 'id': 5242573181}, 'message_id': 214, 'photo': [], 'entities': [], 'text': 'Пауза', 'supergroup_chat_created': False, 'delete_chat_photo': False, 'caption_entities': [], 'new_chat_members': [], 'new_chat_photo': [], 'group_chat_created': False, 'date': 1669307887, 'channel_chat_created': False, 'from': {'is_bot': True, 'id': 5732337497, 'first_name': 'Тест №1', 'username': 'Kisa1985_bot'}}, decorator
+2022-11-24 19:38:08,435, DEBUG, Exiting: send_message, decorator
+2022-11-24 19:38:08,436, DEBUG, Сообщение отправлено, send_message
