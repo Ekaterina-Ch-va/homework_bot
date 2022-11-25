@@ -9,15 +9,6 @@ import telegram
 
 load_dotenv()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s, %(levelname)s, %(message)s, %(funcName)s',
-    handlers=[
-        logging.FileHandler('log.txt'),
-        logging.StreamHandler(stream=sys.stdout)
-    ]
-)
-
 PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
@@ -52,14 +43,19 @@ def get_api_answer(timestamp):
         homework_statuses = requests.get(
             ENDPOINT, headers=HEADERS, params=params
         )
-    except requests.exceptions('Ошибка запроса'):
-        raise
+    except requests.exceptions:
+        raise ConnectionError(f'Ошибка запроса к: {ENDPOINT}')
     if homework_statuses.status_code != 200:
         raise ConnectionError(
             f'Ошибка подключения: {homework_statuses.status_code}'
         )
-    response = homework_statuses.json()
-    return response
+    try:
+        response = homework_statuses.json()
+        return response
+    except Exception:
+        raise TypeError(
+            f'Ошибка преобразования полученного ответа json: {type(response)}'
+        )
 
 
 def check_response(response):
@@ -132,5 +128,13 @@ def main():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s, %(levelname)s, %(message)s, %(funcName)s',
+        handlers=[
+            logging.FileHandler('log.txt'),
+            logging.StreamHandler(stream=sys.stdout)
+        ]
+    )
     logger = logging.getLogger(__name__)
     main()
