@@ -41,5 +41,5 @@ pip install -r requirements.txt
 Запустить бота:
 
 ```
-/путь_к_питон_в_вашем_виртуальном_окружении/api_sp1_bot/venv/bin/python3 /путь_до_файла/api_sp1_bot/homework.py
+python homework.py
 ```
